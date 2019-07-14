@@ -1,0 +1,5 @@
+# http-rider-osx
+
+
+#### ChangeLog
+

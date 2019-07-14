@@ -1,0 +1,55 @@
+language: objective-c
+os: osx
+osx_image: xcode9.2
+sudo: required
+python: '3.6'
+git:
+  depth: 1
+branches:
+  only:
+  - master
+
+env:
+  global:
+  - BUILD_VERSION="0.0.2"
+
+before_install:
+- brew install python3
+- sudo python3 -m pip install -U pip
+- python3 -m pip install py2app
+- nvm install v8.9.1
+- nvm use v8.9.1
+- npm install -g appdmg
+
+install:
+- wget https://github.com/namuan/http-rider/archive/${BUILD_VERSION}.tar.gz -O ./httprider.tar.gz
+- tar -xvf ./httprider.tar.gz
+- mv http-rider-${BUILD_VERSION}/* .
+- rm -rf httprider.tar.gz http-rider-${BUILD_VERSION}
+- python3 -m pip install -r requirements.txt
+
+script:
+- rm -rf build
+- rm -rf dist
+- python3 setup.py py2app
+- appdmg dmg.json dist/HttpRider-${BUILD_VERSION}-macOS.dmg
+- mv dist/HttpRider-${BUILD_VERSION}-macOS.dmg "${TRAVIS_BUILD_DIR}"
+- echo "Done!"
+
+notifications:
+  email: false
+
+before_deploy:
+- git config --local user.name "namuan"
+- git remote set-url origin https://namuan:${GITHUB_TOKEN}@github.com/namuan/http-rider-osx.git
+- git push origin :refs/tags/${BUILD_VERSION}
+- git tag -f -am v${BUILD_VERSION} ${BUILD_VERSION}
+
+deploy:
+  provider: releases
+  api-key: "${GITHUB_TOKEN}"
+  file: "${TRAVIS_BUILD_DIR}/HttpRider-${BUILD_VERSION}-macOS.dmg"
+  overwrite: true
+  skip_cleanup: true
+  on:
+    repo: namuan/http-rider-osx
