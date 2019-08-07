@@ -11,7 +11,7 @@ branches:
 
 env:
   global:
-  - BUILD_VERSION="0.0.7"
+  - BUILD_VERSION="0.0.8"
 
 before_install:
 - brew install python3
