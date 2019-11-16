@@ -14,9 +14,8 @@ env:
   - BUILD_VERSION="0.2.0"
 
 before_install:
-- brew install python3
-- python3 -m venv venv
-- source venv/bin/activate
+- brew update
+- brew install python3 qt pyqt 
 - python3 -m pip install -U pip
 - python3 -m pip install py2app sip
 - nvm install v8.9.1
