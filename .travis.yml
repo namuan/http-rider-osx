@@ -1,8 +1,8 @@
 language: objective-c
 os: osx
-osx_image: xcode9.2
+osx_image: xcode9.4
 sudo: required
-python: '3.6'
+python: '3.7'
 git:
   depth: 1
 branches:
@@ -34,8 +34,9 @@ script:
 - rm -rf build
 - rm -rf dist
 - python3 setup.py py2app
-- appdmg dmg.json dist/HttpRider-${BUILD_VERSION}-macOS.dmg
-- mv dist/HttpRider-${BUILD_VERSION}-macOS.dmg "${TRAVIS_BUILD_DIR}"
+- mv dist/HttpRider.app "${TRAVIS_BUILD_DIR}"
+# - appdmg dmg.json dist/HttpRider-${BUILD_VERSION}-macOS.dmg
+# - mv dist/HttpRider-${BUILD_VERSION}-macOS.dmg 
 - echo "Done!"
 
 notifications:
@@ -50,7 +51,7 @@ before_deploy:
 deploy:
   provider: releases
   api-key: "${GITHUB_TOKEN}"
-  file: "${TRAVIS_BUILD_DIR}/HttpRider-${BUILD_VERSION}-macOS.dmg"
+  file: "${TRAVIS_BUILD_DIR}/HttpRider.app"
   overwrite: true
   skip_cleanup: true
   on:
