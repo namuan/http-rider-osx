@@ -3,7 +3,7 @@
 
 #### ChangeLog
 
-* Release 0.4b0
+* Release 0.5b0
 
 * Release 0.1.0
 [✓] Fixed issue with generating PlantUML sequence diagram participants
